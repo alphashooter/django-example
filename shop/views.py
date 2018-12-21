@@ -49,3 +49,24 @@ def log_in(request):
 
     login(request, user)
     return redirect('index')
+
+
+def register(request):
+    user: User = request.user
+    if user.is_authenticated:
+        return redirect('index')
+
+    if request.method == 'GET':
+        return render(request, 'register.html')
+
+    username = request.POST['username']
+    password = request.POST['password']
+    try:
+        user = User.objects.create_user(username, password=password)
+        user.save()
+    except Exception as exc:
+        print(exc, type(exc))
+        return render(request, 'register.html')
+
+    login(request, user)
+    return redirect('index')

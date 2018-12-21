@@ -54,10 +54,20 @@
             width: unset !important;
         }
     </style>
+    <script>
+        const check_password = function(event) {
+            const input1 = document.getElementById('login-form-password');
+            const input2 = document.getElementById('login-form-confirm-password');
+            if (input1.value !== input2.value) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+            }
+        }
+    </script>
 </head>
 <body>
 
-<form id="login" method="post" action="{% url 'login' %}">
+<form id="login" method="post" action="{% url 'register' %}" onsubmit="check_password(event)">
     {% csrf_token %}
 </form>
 
@@ -71,10 +81,9 @@
             <input id="login-form-username" form="login" name="username" required />
             <label for="login-form-password">Password:</label>
             <input id="login-form-password" form="login" name="password" type="password" required />
-            <input id="login-form-submit" form="login" type="submit" value="Sign in" />
-            <div>
-                <a href="{% url 'register' %}">Sign up</a>
-            </div>
+            <label for="login-form-confirm-password">Confirm password:</label>
+            <input id="login-form-confirm-password" form="login" type="password" required />
+            <input id="login-form-submit" form="login" type="submit" value="Sign up" />
         </div>
     </div>
 </div>
